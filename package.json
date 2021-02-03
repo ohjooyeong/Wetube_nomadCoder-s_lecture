@@ -1,0 +1,22 @@
+{
+  "name": "wetube_nomadcoder-s_lecture",
+  "version": "1.0.0",
+  "description": "바닐라 자바스크립트로 유튜브 클론하기",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ohjooyeong/Wetube_nomadCoder-s_lecture.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/ohjooyeong/Wetube_nomadCoder-s_lecture/issues"
+  },
+  "homepage": "https://github.com/ohjooyeong/Wetube_nomadCoder-s_lecture#readme",
+  "dependencies": {
+    "express": "^4.17.1"
+  }
+}
