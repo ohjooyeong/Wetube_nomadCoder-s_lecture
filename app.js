@@ -22,6 +22,11 @@ app.use(morgan("dev"));
 
 app.use(localsMiddleware);
 
+app.use(function (req, res, next) {
+    res.setHeader("Content-Security-Policy", "script-src 'self' https://archive.org");
+    return next();
+});
+
 app.use(routes.home, globalRouter);
 app.use(routes.users, userRouter); // use메서드는 어떤 사람이 ~~~/user url에 접근하면 userRouter로 이동시키겠다는 소리
 app.use(routes.videos, videoRouter);
