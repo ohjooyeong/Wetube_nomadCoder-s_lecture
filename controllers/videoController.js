@@ -18,12 +18,21 @@ export const search = (req, res) => {
 };
 export const getUpload = (req, res) => res.render("upload", { pageTitle: "Upload" });
 
-export const postUpload = (req, res) => {
+export const postUpload = async (req, res) => {
     const {
-        body: { file, title, desription },
+        body: { title, description },
+        file: { path },
     } = req;
-    // 업로드 and 세이브 비디오 해야함.
-    res.redirect(routes.videoDetail(324393));
+    try {
+        const newVideo = await Video.create({
+            fileUrl: path,
+            title: title,
+            description: description,
+        });
+        res.redirect(routes.videoDetail(newVideo.id));
+    } catch (error) {
+        res.redirect("/");
+    }
 };
 
 export const videoDetail = (req, res) => res.render("videoDetail", { pageTitle: "Video Detail" });
