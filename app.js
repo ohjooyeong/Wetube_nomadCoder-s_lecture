@@ -13,10 +13,11 @@ const app = express();
 
 const PORT = 4000;
 
-app.use(helmet());
+app.use(helmet({ contentSecurityPolicy: false }));
 app.set("view engine", "pug");
 // /uploads 주소로 간다면 express.static이 해당 directory에서 file을 보내줌.
 app.use("/uploads", express.static("uploads"));
+app.use("/static", express.static("static"));
 app.use(cookieParser());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
