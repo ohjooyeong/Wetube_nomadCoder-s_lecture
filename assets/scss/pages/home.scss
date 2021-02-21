@@ -1,0 +1,5 @@
+.home-videos {
+    display: grid;
+    grid-gap: 25px;
+    grid-template-columns: repeat(3, 1fr);
+}
