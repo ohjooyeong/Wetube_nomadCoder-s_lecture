@@ -9,6 +9,9 @@
         display: flex;
         justify-content: center;
         align-items: center;
+        a {
+            color: inherit;
+        }
         &:not(:last-child) {
             margin-bottom: 15px;
         }
