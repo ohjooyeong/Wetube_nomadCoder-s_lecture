@@ -26,7 +26,7 @@ const DELETE_VIDEO = "/:id/delete";
 const GITHUB = "/auth/github";
 const GITHUB_CALLBACK = "/auth/github/callback";
 
-// Facebook
+// Kakao
 
 const KAKAO = "/auth/kakao";
 const KAKAO_CALLBACK = "/auth/kakao/callback";
