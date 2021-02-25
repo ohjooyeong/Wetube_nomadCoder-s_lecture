@@ -1,7 +1,7 @@
 import multer from "multer";
 import routes from "./routes.js";
 
-const storage = multer.diskStorage({
+const storageVideo = multer.diskStorage({
     destination: (req, file, cb) => {
         cb(null, "uploads/videos/");
     },
@@ -10,7 +10,17 @@ const storage = multer.diskStorage({
     },
 });
 
-const multerVideo = multer({ storage: storage });
+const storageAvatar = multer.diskStorage({
+    destination: (req, file, cb) => {
+        cb(null, "uploads/avatars");
+    },
+    filename: (req, file, cb) => {
+        cb(null, `${Date.now()}_${file.originalname}`);
+    },
+});
+
+const multerVideo = multer({ storage: storageVideo });
+const multerAvatar = multer({ storage: storageAvatar });
 
 export const localsMiddleware = (req, res, next) => {
     res.locals.siteName = "WeTube";
@@ -36,3 +46,4 @@ export const onlyPrivate = (req, res, next) => {
 };
 
 export const uploadVideo = multerVideo.single("videoFile");
+export const uploadAvatar = multerAvatar.single("avatar");
