@@ -1,4 +1,6 @@
 .videoPlayer {
+    width: 100%;
+    max-width: 850px;
     position: relative;
     &:hover {
         .videoPlayer__controls {
@@ -15,7 +17,7 @@
         color: white;
         position: absolute;
         z-index: 9;
-        bottom: 5px;
+        bottom: 1px;
         width: 100%;
         background-color: rgba(0, 0, 0, 0.5);
         padding: 10px;
