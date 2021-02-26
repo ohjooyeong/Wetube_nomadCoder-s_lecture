@@ -1,3 +1,4 @@
+const htmlBody = document.body;
 const videoContainer = document.getElementById("jsVideoPlayer");
 const videoPlayer = document.querySelector("#jsVideoPlayer video");
 const playBtn = document.getElementById("jsPlayButton");
@@ -5,6 +6,7 @@ const volumeBtn = document.getElementById("jsVolumeBtn");
 const fullScreenBtn = document.getElementById("jsFullScreen");
 const currentTime = document.getElementById("currentTime");
 const totalTime = document.getElementById("totalTime");
+const volumeRange = document.getElementById("jsVolume");
 
 let screenBool = true;
 
@@ -21,8 +23,16 @@ const handlePlayClick = () => {
 const handleVolumeClick = () => {
     if (videoPlayer.muted) {
         videoPlayer.muted = false;
-        volumeBtn.innerHTML = '<i class="fas fa-volume-up"></i>';
+        volumeRange.value = videoPlayer.volume;
+        if (volumeRange.value >= 0.5) {
+            volumeBtn.innerHTML = '<i class="fas fa-volume-up"></i>';
+        } else if (volumeRange.value >= 0.1) {
+            volumeBtn.innerHTML = '<i class="fas fa-volume-down"></i>';
+        } else {
+            volumeBtn.innerHTML = '<i class="fas fa-volume-mute"></i>';
+        }
     } else {
+        volumeRange.value = 0;
         videoPlayer.muted = true;
         volumeBtn.innerHTML = '<i class="fas fa-volume-mute"></i>';
     }
@@ -80,15 +90,52 @@ const setTotalTime = () => {
 };
 
 const setCurrentTime = () => {
-    currentTime.innerHTML = `${formatDate(videoPlayer.currentTime)} `;
+    currentTime.innerHTML = `${formatDate(Math.floor(videoPlayer.currentTime))} `;
+};
+
+const handleEnded = () => {
+    videoPlayer.currentTime = 0;
+    playBtn.innerHTML = '<i class="fas fa-play"></i>';
+};
+
+const handlePlayKeydown = (e) => {
+    if (e.which == 32) {
+        e.preventDefault();
+        if (videoPlayer.paused) {
+            videoPlayer.play();
+            playBtn.innerHTML = '<i class="fas fa-pause"></i>';
+        } else {
+            videoPlayer.pause();
+            playBtn.innerHTML = '<i class="fas fa-play"></i>';
+        }
+    }
+};
+
+const handleDrag = (e) => {
+    const {
+        target: { value },
+    } = e;
+    videoPlayer.volume = value;
+    if (value >= 0.5) {
+        volumeBtn.innerHTML = '<i class="fas fa-volume-up"></i>';
+    } else if (value >= 0.1) {
+        volumeBtn.innerHTML = '<i class="fas fa-volume-down"></i>';
+    } else {
+        volumeBtn.innerHTML = '<i class="fas fa-volume-mute"></i>';
+    }
 };
 
 function init() {
+    videoPlayer.volume = 0.5;
     playBtn.addEventListener("click", handlePlayClick);
     volumeBtn.addEventListener("click", handleVolumeClick);
     fullScreenBtn.addEventListener("click", goAndExitFullScreen);
     videoPlayer.addEventListener("loadedmetadata", setTotalTime);
     videoPlayer.addEventListener("timeupdate", setCurrentTime);
+    videoPlayer.addEventListener("ended", handleEnded);
+    volumeRange.addEventListener("input", handleDrag);
+
+    htmlBody.addEventListener("keypress", handlePlayKeydown);
 }
 
 if (videoContainer) {
