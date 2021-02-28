@@ -8,6 +8,8 @@ import session from "express-session";
 import userRouter from "./routers/userRouter";
 import videoRouter from "./routers/videoRouter";
 import globalRouter from "./routers/globalRouter";
+import apiRouter from "./routers/apiRouter";
+
 import routes from "./routes";
 import { localsMiddleware } from "./middleware";
 
@@ -47,5 +49,6 @@ app.use(function (req, res, next) {
 app.use(routes.home, globalRouter);
 app.use(routes.users, userRouter); // use메서드는 어떤 사람이 ~~~/user url에 접근하면 userRouter로 이동시키겠다는 소리
 app.use(routes.videos, videoRouter);
+app.use(routes.api, apiRouter);
 
 export default app;

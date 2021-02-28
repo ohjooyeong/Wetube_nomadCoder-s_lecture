@@ -23,6 +23,7 @@
         "@babel/node": "^7.12.13",
         "@babel/polyfill": "^7.12.1",
         "@babel/preset-env": "^7.12.13",
+        "axios": "^0.21.1",
         "connect-mongo": "^4.1.0",
         "cookie-parser": "^1.4.5",
         "core-js": "^3.8.3",

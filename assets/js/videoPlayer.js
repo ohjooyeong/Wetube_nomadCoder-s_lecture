@@ -10,13 +10,20 @@ const volumeRange = document.getElementById("jsVolume");
 
 let screenBool = true;
 
+const registerView = () => {
+    const videoId = window.location.href.split("/videos/")[1];
+    fetch(`/api/${videoId}/view`, {
+        method: "POST",
+    });
+};
+
 const handlePlayClick = () => {
     if (videoPlayer.paused) {
         videoPlayer.play();
         playBtn.innerHTML = '<i class="fas fa-pause"></i>';
     } else {
         videoPlayer.pause();
-        playBtn.innerHTML = '<i class="fas fa-play"></i>';
+        playBtn.innerHTML = `'<i class="fas fa-play"></i>'`;
     }
 };
 
@@ -94,6 +101,7 @@ const setCurrentTime = () => {
 };
 
 const handleEnded = () => {
+    registerView();
     videoPlayer.currentTime = 0;
     playBtn.innerHTML = '<i class="fas fa-play"></i>';
 };
