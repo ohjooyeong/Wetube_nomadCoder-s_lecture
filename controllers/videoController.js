@@ -1,5 +1,6 @@
 import routes from "../routes";
 import Video from "../models/Video";
+import Comment from "../models/Comment";
 
 export const home = async (req, res) => {
     try {
@@ -52,7 +53,7 @@ export const videoDetail = async (req, res) => {
         params: { id },
     } = req;
     try {
-        const video = await Video.findByIdAndUpdate(id).populate("creator");
+        const video = await Video.findByIdAndUpdate(id).populate("creator").populate("comments");
         res.render("videoDetail", { pageTitle: video.title, video });
     } catch (error) {
         console.log(error);
@@ -108,6 +109,8 @@ export const deleteVideo = async (req, res) => {
     res.redirect(routes.home);
 };
 
+// 조회수 + 기능
+
 export const postRegisterView = async (req, res) => {
     const {
         params: { id },
@@ -117,6 +120,53 @@ export const postRegisterView = async (req, res) => {
         video.views += 1;
         video.save();
         res.status(200);
+    } catch (error) {
+        res.status(400);
+    } finally {
+        res.end();
+    }
+};
+
+export const postAddcomment = async (req, res) => {
+    const {
+        params: { id },
+        body: { comment },
+        user,
+    } = req;
+    try {
+        const video = await Video.findById(id);
+        const newComment = await Comment.create({
+            text: comment,
+            creator: user.id,
+        });
+        video.comments.push(newComment.id);
+        video.save();
+    } catch (error) {
+        res.status(400);
+    } finally {
+        res.end();
+    }
+};
+
+export const postDeleteComment = async (req, res) => {
+    const {
+        params: { id },
+        body: { targetComment },
+    } = req;
+    try {
+        const video = await Video.findById(id);
+        const comment = await Comment.find({ text: targetComment });
+        const commentIndex = video.comments.some((value, index) => {
+            if (comment[0].id === value) {
+                return index;
+            }
+            return index;
+        });
+
+        const remove = video.comments.splice(commentIndex, 1);
+
+        await Comment.findOneAndRemove({ text: targetComment });
+        video.save();
     } catch (error) {
         res.status(400);
     } finally {

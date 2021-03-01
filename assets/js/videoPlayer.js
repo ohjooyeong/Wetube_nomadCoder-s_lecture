@@ -1,4 +1,3 @@
-const htmlBody = document.body;
 const videoContainer = document.getElementById("jsVideoPlayer");
 const videoPlayer = document.querySelector("#jsVideoPlayer video");
 const playBtn = document.getElementById("jsPlayButton");
@@ -106,19 +105,6 @@ const handleEnded = () => {
     playBtn.innerHTML = '<i class="fas fa-play"></i>';
 };
 
-const handlePlayKeydown = (e) => {
-    if (e.which == 32) {
-        e.preventDefault();
-        if (videoPlayer.paused) {
-            videoPlayer.play();
-            playBtn.innerHTML = '<i class="fas fa-pause"></i>';
-        } else {
-            videoPlayer.pause();
-            playBtn.innerHTML = '<i class="fas fa-play"></i>';
-        }
-    }
-};
-
 const handleDrag = (e) => {
     const {
         target: { value },
@@ -142,8 +128,6 @@ function init() {
     videoPlayer.addEventListener("timeupdate", setCurrentTime);
     videoPlayer.addEventListener("ended", handleEnded);
     volumeRange.addEventListener("input", handleDrag);
-
-    htmlBody.addEventListener("keypress", handlePlayKeydown);
 }
 
 if (videoContainer) {
